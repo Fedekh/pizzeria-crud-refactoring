@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using pizzeria_crud_refactoring.Models;
 using pizzeria_mvc.Database;
 
@@ -24,26 +25,46 @@ namespace pizzeria_crud_refactoring.Controllers
         [HttpGet]
         public IActionResult Details(long id)
         {
-            Pizza? pizza = _db.Pizza.Where(x => x.Id == id).FirstOrDefault();
+           Pizza pizza = _db.Pizza.Where(p=>p.Id == id).Include(p=>p.Category).FirstOrDefault();
+
+            if (pizza == null) return View("../NotFound");
             return View(pizza);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            List<Category> categories = _db.Category.ToList();
+
+            PizzaFormModel model = new PizzaFormModel()
+            {
+                Pizza = new Pizza(),
+                Categories = categories
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Pizza pizza)
+        public IActionResult Create(PizzaFormModel model)
         {
-            if(!ModelState.IsValid) return View(pizza);
+            if(!ModelState.IsValid) return View(model);
 
-            _db.Pizza.Add(pizza);
+            Pizza pizzaCreate = new Pizza()
+            {
+                Name = model.Pizza.Name,
+                Description = model.Pizza.Description,
+                Photo = model.Pizza.Photo,
+                Price = model.Pizza.Price
+            };
+
+            pizzaCreate.CategoryId = model.Pizza.CategoryId;
+
+            _db.Pizza.Add(pizzaCreate);
             _db.SaveChanges();
 
-            TempData["Message"] = $"La pizza {pizza.Name} è stata creata con successo";
+            TempData["Message"] = $"La pizza {pizzaCreate.Name} è stata creata con successo";
 
             return RedirectToAction("Index");
         }
@@ -54,14 +75,30 @@ namespace pizzeria_crud_refactoring.Controllers
             Pizza? pizza = _db.Pizza.Where(p => p.Id == id).FirstOrDefault();
             if (pizza == null) return View("../NotFound");
 
-            else return View(pizza);
+            else
+            {
+                List<Category> categories = _db.Category.ToList(); 
+                PizzaFormModel model = new PizzaFormModel()
+                {
+                    Pizza = pizza,
+                    Categories = categories
+                };
+
+                return View(model);
+            }
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(long id, Pizza pizza)
+        public IActionResult Edit(long id, PizzaFormModel model)
         {
-            if (!ModelState.IsValid) return View(pizza);
+            if (!ModelState.IsValid)
+            {
+                List<Category> categories = _db.Category.ToList();
+                model.Categories = categories;
+                return View(model); 
+            }
 
             Pizza? pizzaToEdit = _db.Pizza.Where(p => p.Id == id).FirstOrDefault();
 
@@ -70,10 +107,11 @@ namespace pizzeria_crud_refactoring.Controllers
 
             else
             {
-                pizzaToEdit.Price = pizza.Price;
-                pizzaToEdit.Description = pizza.Description;
-                pizzaToEdit.Name = pizza.Name;
-                pizzaToEdit.Photo = pizza.Photo;
+                pizzaToEdit.Price = model.Pizza.Price;
+                pizzaToEdit.Description = model.Pizza.Description;
+                pizzaToEdit.Name = model.Pizza.Name;
+                pizzaToEdit.Photo = model.Pizza.Photo;
+                pizzaToEdit.CategoryId = model.Pizza.CategoryId;
                 _db.SaveChanges();
                 TempData["Message"] = $"La pizza {pizzaToEdit.Name} è stata modificata correttamente";
 

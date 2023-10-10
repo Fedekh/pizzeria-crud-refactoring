@@ -10,6 +10,18 @@
     <p>@Model.Description</p>
     <p>Price: $@Model.Price</p>
     <img width="200" src="@Model.Photo" />
+
+    <div>
+        <strong>Categoria:</strong>
+        @if (Model.CategoryId != null)
+        {
+            <p>@Model.Category.Name </p>
+        }
+        else
+        {
+            <p>Nessuan categoria associata</p>
+        }
+    </div>
 </div>
 
 <a class="btn btn-success" asp-action="Index" asp-controller="Home">Torna indietro va</a>

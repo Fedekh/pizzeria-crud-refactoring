@@ -24,6 +24,21 @@ namespace pizzeria_crud_refactoring.Models
         [PriceValidation]
         public double Price { get; set; }
 
+
+        //relazione 1:N con category
+        public long? CategoryId { get; set; }
+        public Category? Category { get; set; }
+
+
+
         public Pizza() { }
+
+        public Pizza(string name, string description, string photo, double price)
+        {
+            Name = name;
+            Description = description;
+            Photo = photo;
+            Price = price;
+        }
     }
 }

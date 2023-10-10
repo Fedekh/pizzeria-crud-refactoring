@@ -6,7 +6,7 @@ namespace pizzeria_mvc.Database
     public class PizzaContext : DbContext
     {
         public DbSet<Pizza> Pizza { get; set; }
-        //public DbSet<Category> Category { get; set; }
+        public DbSet<Category> Category { get; set; }
         //public DbSet<Ingredient> Ingredient { get; set; }
 
         private string sqlString = "Server=GAMMA;Database=Pizza;TrustServerCertificate=True";

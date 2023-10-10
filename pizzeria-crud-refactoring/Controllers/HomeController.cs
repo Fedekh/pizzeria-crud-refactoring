@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using pizzeria_crud_refactoring.Models;
 using pizzeria_mvc.Database;
 
@@ -26,12 +27,10 @@ namespace pizzeria_crud_refactoring.Controllers
         [HttpGet]
         public IActionResult Details(long id)
         {
-            Pizza? pizza = _db.Pizza.Where(p=>p.Id == id).FirstOrDefault();
+            Pizza pizza = _db.Pizza.Where(p => p.Id == id).Include(p => p.Category).FirstOrDefault();
 
             if (pizza == null) return View("../NotFound");
-
             return View(pizza);
-
         }
 
 
