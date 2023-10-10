@@ -1,0 +1,46 @@
+﻿﻿@using pizzeria_crud_refactoring.Models
+@model Pizza
+
+<h1 class="container mx-auto my-4">Crena una pizza</h1>
+<div class="my-4 container mx-auto">
+    <form asp-controller="Pizza" asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <label for="formGroupExampleInput">Nome pizza</label>
+            <input type="text" class="form-control" asp-for="Name">
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Descrizione</label>
+            <textarea class="form-control" asp-for="Description" rows="3"></textarea>
+            <span asp-validation-for="Description"></span>
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Foto</label>
+            <input type="text" class="form-control" asp-for="Photo">
+            <span asp-validation-for="Photo"></span>
+
+        </div>
+        <div class="form-group mb-4">
+            <label for="formGroupExampleInput2">prezzo €</label>
+            <input type="number" class="form-control" asp-for="Price">
+            <span asp-validation-for="Price"></span>
+        </div>
+
+        @* categorie *@
+       @*  <div class="form-group mb-4">
+
+            <select asp-for="Pizza.CategoryId" class="d-block w-100">
+                <option>---</option>
+                @foreach (Category category in Model.Categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+        </div> *@
+
+        <button type="submit" class="btn btn-success">Crea</button>
+        <a class="btn btn-danger" asp-action="Index" asp-controller="Pizza"> Lascia perde torna indietro</a>
+    </form>
+</div>
