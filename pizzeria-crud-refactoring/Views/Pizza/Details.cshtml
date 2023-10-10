@@ -1,0 +1,16 @@
+﻿@using pizzeria_crud_refactoring.Models;
+@model Pizza
+
+
+<h2>Dettagli lato admin</h2>
+
+<div class="my-5 mx-auto">
+    <p>ID: @Model.Id</p>
+    <h1>@Model.Name</h1>
+    <p>@Model.Description</p>
+    <p>Price: $@Model.Price</p>
+    <img width="200" src="@Model.Photo" />
+</div>
+
+<a class="btn btn-success" asp-action="Index" asp-controller="Pizza">Torna indietro va</a>
+<a class="btn btn-warning" asp-controller="Pizza" asp-action="Edit" asp-route-id="@Model.Id"><i class="fa-solid fa-gear"></i> Modifica</a>
