@@ -1,4 +1,5 @@
 ﻿using la_mia_pizzeria_crud_mvc.CustomLogger;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using pizzeria_mvc.Database;
 
 namespace pizzeria_crud_refactoring.Controllers
 {
+    [Authorize(Roles = "User,Admin")]
     public class PizzaController : Controller
     {
         private ICustomLog _myLogger;
@@ -38,7 +40,7 @@ namespace pizzeria_crud_refactoring.Controllers
             return View(pizza);
         }
 
-
+        [Authorize(Roles ="Admin")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -67,7 +69,7 @@ namespace pizzeria_crud_refactoring.Controllers
         }
 
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(PizzaFormModel model)
@@ -123,7 +125,7 @@ namespace pizzeria_crud_refactoring.Controllers
 
 
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(long id)
         {
@@ -163,6 +165,8 @@ namespace pizzeria_crud_refactoring.Controllers
 
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(long id, PizzaFormModel model)
@@ -229,6 +233,7 @@ namespace pizzeria_crud_refactoring.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(long id)

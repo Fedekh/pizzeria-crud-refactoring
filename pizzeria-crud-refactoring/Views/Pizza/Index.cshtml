@@ -13,11 +13,13 @@
 <div class="section my-5 container">
     <div class="d-flex justify-content-between">
         <h1 class="my-4">Benvenuto nell admin section</h1>
-        <section class="d-flex flex-column gap-2">
-            <a asp-action="Create" asp-controller="Pizza" class="btn btn-info">Creare una nuova pizza</a>
-            <a asp-action="Index" asp-controller="Category" class="btn btn-warning mb-3">Vedi lista categorie</a>
+        @if (User.IsInRole("Admin"))
+        {            
+            <section class="d-flex flex-column gap-2">
+                <a asp-action="Create" asp-controller="Pizza" class="btn btn-info">Creare una nuova pizza</a>
 
-        </section>
+            </section>
+        }
     </div>
 
 
@@ -69,13 +71,17 @@
                             <div class="d-flex gap-1">
 
                                 <a class="btn btn-success" asp-controller="Pizza" asp-action="Details" asp-route-id="@pizza.Id"><i class="fa-solid fa-info"></i></a>
-                                <a class="btn btn-warning" asp-controller="Pizza" asp-action="Edit" asp-route-id="@pizza.Id"><i class="fa-solid fa-gear"></i></a>
-                                <form asp-action="Delete" asp-controller="Pizza" asp-route-id="@pizza.Id" method="post">
-                                    @Html.AntiForgeryToken()
-                                    <button type="button" class="btn btn-danger deleteBtn">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </form>
+
+                                @if (User.IsInRole("Admin"))
+                                {                                    
+                                    <a class="btn btn-warning" asp-controller="Pizza" asp-action="Edit" asp-route-id="@pizza.Id"><i class="fa-solid fa-gear"></i></a>
+                                    <form asp-action="Delete" asp-controller="Pizza" asp-route-id="@pizza.Id" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <button type="button" class="btn btn-danger deleteBtn">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
+                                }
                             </div>
 
                         </td>
