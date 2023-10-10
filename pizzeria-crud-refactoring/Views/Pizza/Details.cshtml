@@ -2,7 +2,7 @@
 @model Pizza
 
 
-<h2>Dettagli lato user</h2>
+<h2>Dettagli lato admin</h2>
 
 <div class="my-5 mx-auto">
     <p>ID: @Model.Id</p>
@@ -20,6 +20,26 @@
         else
         {
             <p>Nessuan categoria associata</p>
+        }
+    </div>
+
+    <div>
+        <strong>Ingredienti:</strong>
+
+        @if (Model.Ingredients.Count>0)
+        {
+            <ul>
+               @foreach(Ingredient ing in Model.Ingredients)
+                {
+
+                 <li>@ing.Name </li>
+                }
+                 
+            </ul>
+        }
+        else
+        {
+           <p>Nessuan Ingredienti </p>
         }
     </div>
 </div>

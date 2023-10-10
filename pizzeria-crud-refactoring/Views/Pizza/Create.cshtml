@@ -9,23 +9,23 @@
         <div class="form-group">
             <label for="formGroupExampleInput">Nome pizza</label>
             <input type="text" class="form-control" asp-for="Pizza.Name">
-            <span asp-validation-for="Pizza.Name"></span>
+            <span class="text-danger" asp-validation-for="Pizza.Name"></span>
         </div>
         <div class="form-group">
             <label for="formGroupExampleInput2">Descrizione</label>
             <textarea class="form-control" asp-for="Pizza.Description" rows="3"></textarea>
-            <span asp-validation-for="Pizza.Description"></span>
+            <span class="text-danger" asp-validation-for="Pizza.Description"></span>
         </div>
         <div class="form-group">
             <label for="formGroupExampleInput2">Foto</label>
             <input type="text" class="form-control" asp-for="Pizza.Photo">
-            <span asp-validation-for="Pizza.Photo"></span>
+            <span class="text-danger" asp-validation-for="Pizza.Photo"></span>
 
         </div>
         <div class="form-group mb-4">
             <label for="formGroupExampleInput2">prezzo €</label>
             <input type="number" class="form-control" asp-for="Pizza.Price">
-            <span asp-validation-for="Pizza.Price"></span>
+            <span class="text-danger" asp-validation-for="Pizza.Price"></span>
         </div>
 
         @* categorie *@
@@ -39,6 +39,19 @@
                 }
             </select>
         </div>
+
+
+        @* Ingredienti *@
+        <div class="mb-3">
+            <strong>Ingredienti:</strong>
+            <select asp-for="SelectedIngredients"
+                    asp-items="@Model.Ingredients"
+                    multiple="multiple"
+                    size="10"
+                    class="form-control mb-2 mr-sm-2 ml-sm-3 leftList">
+            </select>
+        </div>
+
 
         <button type="submit" class="btn btn-success">Crea</button>
         <a class="btn btn-danger" asp-action="Index" asp-controller="Pizza"> Lascia perde torna indietro</a>

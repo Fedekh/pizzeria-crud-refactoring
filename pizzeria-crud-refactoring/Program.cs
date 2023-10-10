@@ -1,7 +1,15 @@
+using la_mia_pizzeria_crud_mvc.CustomLogger;
+using pizzeria_mvc.Database;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// implementazione Dipendency injection del DB + Custom FileLogger
+builder.Services.AddScoped<ICustomLog, CustomFileLogger>();
+builder.Services.AddScoped<PizzaContext, PizzaContext>();
+
 
 var app = builder.Build();
 

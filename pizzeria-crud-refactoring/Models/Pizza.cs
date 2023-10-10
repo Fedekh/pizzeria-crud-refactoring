@@ -20,14 +20,18 @@ namespace pizzeria_crud_refactoring.Models
         [Required(ErrorMessage = "L'URL è obbligatorio")]
         public string Photo { get; set; }
 
-        [Required(ErrorMessage = "Il nome è obbligatorio")]
         [PriceValidation]
+        [Required]
         public double Price { get; set; }
 
 
         //relazione 1:N con category
         public long? CategoryId { get; set; }
         public Category? Category { get; set; }
+
+
+        //relazione N:N
+        public List<Ingredient>? Ingredients { get; set; }
 
 
 
