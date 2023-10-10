@@ -23,6 +23,7 @@ namespace pizzeria_crud_refactoring.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            _myLogger.WriteLog($"L'utente è arrivato nel admins index");
             List<Pizza> pizzas = _db.Pizza.ToList();
             return View(pizzas);
         }
@@ -33,6 +34,7 @@ namespace pizzeria_crud_refactoring.Controllers
            Pizza pizza = _db.Pizza.Where(p=>p.Id == id).Include(p=>p.Category).Include(p=>p.Ingredients).FirstOrDefault();
 
             if (pizza == null) return View("../NotFound");
+            _myLogger.WriteLog($"L'utente è arrivato sta visualizzando i dettagli di {pizza.Name}");
             return View(pizza);
         }
 
@@ -60,6 +62,7 @@ namespace pizzeria_crud_refactoring.Controllers
                 Categories = categories,
                 Ingredients = listIngredients
             };
+            _myLogger.WriteLog($"L'utente vuole creare una pizza");
             return View(model);
         }
 
@@ -111,8 +114,9 @@ namespace pizzeria_crud_refactoring.Controllers
                 _db.SaveChanges();
 
                 TempData["Message"] = $"La pizza {model.Pizza.Name} è stata creata con successo";
+                _myLogger.WriteLog($"L'utente ha creato {model.Pizza.Name}");
 
-                return RedirectToAction("Index");
+            return RedirectToAction("Index");
             
         }
 
@@ -148,6 +152,8 @@ namespace pizzeria_crud_refactoring.Controllers
                     Categories = categories,
                     Ingredients = selectListItem
                 };
+
+                _myLogger.WriteLog($"L'utente vuole modificare {model.Pizza.Name}");
 
                 return View(model);
             }
@@ -216,6 +222,7 @@ namespace pizzeria_crud_refactoring.Controllers
                 pizzaToEdit.Ingredients = model.Pizza.Ingredients;
                 _db.SaveChanges();
                 TempData["Message"] = $"La pizza {pizzaToEdit.Name} è stata modificata correttamente";
+                _myLogger.WriteLog($"L'utente ha modificato {model.Pizza.Name}");
 
                 return RedirectToAction("Index");
             }
@@ -233,6 +240,7 @@ namespace pizzeria_crud_refactoring.Controllers
             _db.Pizza.Remove(pizzaToDelte);
             _db.SaveChanges();
             TempData["Message"] = $"La pizza {pizzaToDelte.Name} è stata eliminata correttamente";
+            _myLogger.WriteLog($"L'utente ha eliminato {pizzaToDelte.Name}");
 
             return RedirectToAction("Index");
         }
